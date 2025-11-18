@@ -6,7 +6,7 @@
 #include "queue.h"
 #include "global.h"
 // Chân kết nối LDR
-#define LIGHT_PIN 4  // dùng chân ADC1_CH1 trên Yolo UNO
+#define LIGHT_PIN 16  // dùng chân ADC1_CH1 trên Yolo UNO
 
 
 // Queue chứa trạng thái ánh sáng (true = sáng, false = tối)
