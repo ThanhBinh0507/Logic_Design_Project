@@ -17,11 +17,12 @@ float humi = 0;
 
       temp = receivedData.temperature;
       humi = receivedData.humidity;
+      label = receivedData.label; //lấy kết quả từ TinyML
 
       lcd.setCursor(0, 0);
       {
         char buf[32];
-        snprintf(buf, sizeof(buf), "T:%.1fC H:%.1f%%", temp, humi);
+        snprintf(buf, sizeof(buf), "T:%.1fC H:%.1f%% L:%d", temp, humi, label);
         lcd.print(buf);
       }
 
@@ -55,7 +56,8 @@ float humi = 0;
         lcd.print("Status: NORMAL "); // Chuỗi 16 ký tự
       }
       // In ra Serial để debug
-      Serial.printf("[LCD] %s Mode - %.1f°C, %.1f%%\n", state.c_str(), temp, humi);
+      Serial.printf("[LCD] %s Mode - %.1f°C, %.1f%% | Label ML=%d\n", state.c_str(), 
+                    temp, humi, receivedData.label);
     }
      vTaskDelay(pdMS_TO_TICKS(250));
   }
