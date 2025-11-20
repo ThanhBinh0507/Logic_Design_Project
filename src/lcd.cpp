@@ -10,7 +10,11 @@ void lcd_display(void *pvParameters) {
 SensorData_t receivedData; // Tạo một biến cục bộ để chứa dữ liệu
 float temp = 0;
 float humi = 0;
+<<<<<<< HEAD
 float label = 0;
+=======
+
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
   while (1) {
     // Chờ dữ liệu mới
     if (xQueueReceive(xLCDQueue, &receivedData, 0) == pdTRUE) {
@@ -56,8 +60,13 @@ float label = 0;
         lcd.print("Status: NORMAL "); // Chuỗi 16 ký tự
       }
       // In ra Serial để debug
+<<<<<<< HEAD
       Serial.printf("[LCD] %s Mode - %.1f°C, %.1f%%\n" , state.c_str(), 
                     temp, humi);
+=======
+      Serial.printf("[LCD] %s Mode - %.1f°C, %.1f%% | Label ML=%d\n", state.c_str(), 
+                    temp, humi, receivedData.label);
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
     }
      vTaskDelay(pdMS_TO_TICKS(250));
   }

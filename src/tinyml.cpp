@@ -43,9 +43,13 @@ void setupTinyML()
 
     Serial.println("TensorFlow Lite Micro initialized on ESP32.");
 }
+<<<<<<< HEAD
 SensorData_t receivedData; // Tạo một biến cục bộ để chứa dữ liệu
 float temp = 0;
 float humi = 0;
+=======
+
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
 void tiny_ml_task(void *pvParameters)
 {
 
@@ -53,6 +57,7 @@ void tiny_ml_task(void *pvParameters)
 
     while (1)
     {
+<<<<<<< HEAD
         if (xQueueReceive(xTinyMLQueue, &receivedData, 0) == pdTRUE){
             // Prepare input data (e.g., sensor readings)
             // For a simple example, let's assume a single float input
@@ -71,6 +76,27 @@ void tiny_ml_task(void *pvParameters)
             Serial.print("Inference result: ");
             Serial.println(result);
         }
+=======
+
+        // Prepare input data (e.g., sensor readings)
+        // For a simple example, let's assume a single float input
+        input->data.f[0] = dht20.getTemperature();
+        input->data.f[1] = dht20.getHumidity();
+
+        // Run inference
+        TfLiteStatus invoke_status = interpreter->Invoke();
+        if (invoke_status != kTfLiteOk)
+        {
+            error_reporter->Report("Invoke failed");
+            return;
+        }
+
+        // Get and process output
+        float result = output->data.f[0];
+        Serial.print("Inference result: ");
+        Serial.println(result);
+
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
         vTaskDelay(5000);
     }
 }

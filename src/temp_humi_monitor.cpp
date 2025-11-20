@@ -18,7 +18,10 @@ void temp_humi_monitor(void *pvParameters){
         xQueueOverwrite(xLCDQueue, &sensorData);
         xQueueOverwrite(xNeoQueue, &sensorData);
         xQueueOverwrite(xServerQueue, &sensorData);
+<<<<<<< HEAD
         xQueueOverwrite(xTinyMLQueue, &sensorData);
+=======
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
         vTaskDelay(pdMS_TO_TICKS(5000)); // đọc mỗi 5s
     }
 }

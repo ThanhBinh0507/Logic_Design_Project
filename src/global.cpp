@@ -18,7 +18,11 @@ QueueHandle_t xSensorQueue = NULL;
 QueueHandle_t xLCDQueue = NULL;
 QueueHandle_t xNeoQueue = NULL;
 QueueHandle_t xServerQueue = NULL;
+<<<<<<< HEAD
 QueueHandle_t xTinyMLQueue = NULL;
 SemaphoreHandle_t xLCDSemaphore = NULL;
 
+=======
+SemaphoreHandle_t xLCDSemaphore = NULL;
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
 SensorData_t sensorData = {0};

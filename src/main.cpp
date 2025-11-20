@@ -9,13 +9,20 @@
 #include "lcd.h"
 #include "light.h"
 // include task
+<<<<<<< HEAD
+=======
+#include "door.h"
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
 #include "task_check_info.h"
 #include "task_toogle_boot.h"
 #include "task_wifi.h"
 #include "task_webserver.h"
 #include "task_core_iot.h"
 #include "mainserver.h"
+<<<<<<< HEAD
 #include "tinyml.h"
+=======
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
 void setup()
 {
   Serial.begin(115200);
@@ -25,8 +32,12 @@ void setup()
   // Tạo queue chứa 1 phần tử kiểu SensorData_t
   xSensorQueue = xQueueCreate(1, sizeof(SensorData_t));
   xServerQueue = xQueueCreate(1, sizeof(SensorData_t));
+<<<<<<< HEAD
   xTinyMLQueue = xQueueCreate(1, sizeof(SensorData_t));
 //  xLightQueue = xQueueCreate(1, sizeof(bool));  // ✅ CORRECT
+=======
+ xLightQueue = xQueueCreate(1, sizeof(bool));  // ✅ CORRECT
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
   if (xSensorQueue == NULL || xLCDQueue == NULL) {
     Serial.println("Failed to create queue!");
     while(1);
@@ -39,10 +50,19 @@ void setup()
   xTaskCreate(temp_humi_monitor, "Task TEMP HUMI Monitor", 4096, NULL, 2, NULL);
   xTaskCreate(lcd_display, "Task LCD", 4096, NULL, 2, NULL);
   xTaskCreate(main_server_task, "Task Main Server" ,8192  ,NULL  ,2 , NULL);
+<<<<<<< HEAD
   xTaskCreate(tiny_ml_task, "Tiny ML Task" ,2048  ,NULL  ,2 , NULL);
   // xTaskCreate(coreiot_task, "CoreIOT Task" ,4096  ,NULL  ,2 , NULL);
   // xTaskCreate(Task_Toogle_BOOT, "Task_Toogle_BOOT", 4096, NULL, 2, NULL);
   // xTaskCreate(Light_Task,"Light Task",4096,NULL,3,NULL);
+=======
+  // xTaskCreate( tiny_ml_task, "Tiny ML Task" ,2048  ,NULL  ,2 , NULL);
+  // xTaskCreate(coreiot_task, "CoreIOT Task" ,4096  ,NULL  ,2 , NULL);
+  // xTaskCreate(Task_Toogle_BOOT, "Task_Toogle_BOOT", 4096, NULL, 2, NULL);
+  // xTaskCreate(Light_Task,"Light Task",4096,NULL,2,NULL);
+// xTaskCreate(doorTask, "Door Task", 2048, NULL, 1, NULL);
+
+>>>>>>> b76eaa43f33bd6f91a042d7e94ebfad5090ca475
 
 
           
