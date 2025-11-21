@@ -10,14 +10,12 @@ void lcd_display(void *pvParameters) {
 SensorData_t receivedData; // Tạo một biến cục bộ để chứa dữ liệu
 float temp = 0;
 float humi = 0;
-float label = 0;
   while (1) {
     // Chờ dữ liệu mới
     if (xQueueReceive(xLCDQueue, &receivedData, 0) == pdTRUE) {
 
       temp = receivedData.temperature;
       humi = receivedData.humidity;
-      label = receivedData.label; //lấy kết quả từ TinyML
 
       lcd.setCursor(0, 0);
       {

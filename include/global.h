@@ -10,7 +10,6 @@
 typedef struct {
   float temperature;
   float humidity;
-  float label;
 } SensorData_t;
 // Queue handle dùng chung
 extern QueueHandle_t xSensorQueue;
