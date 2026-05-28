@@ -7,38 +7,59 @@
 // #include "tinyml.h"
 #include "coreiot.h"
 #include "lcd.h"
-
+#include "light.h"
+#include "door.h"
 // include task
 #include "task_check_info.h"
 #include "task_toogle_boot.h"
 #include "task_wifi.h"
 #include "task_webserver.h"
 #include "task_core_iot.h"
-
+#include "mainserver.h"
+#include "tinyml.h"
+QueueHandle_t xAIResultQueue;
 void setup()
 {
   Serial.begin(115200);
+Serial.println("=== DOOR TEST ONLY ===");
   xNeoQueue = xQueueCreate(1, sizeof(SensorData_t));
   xLCDQueue = xQueueCreate(1, sizeof(SensorData_t));
   // Tạo queue chứa 1 phần tử kiểu SensorData_t
   xSensorQueue = xQueueCreate(1, sizeof(SensorData_t));
+  xServerQueue = xQueueCreate(1, sizeof(SensorData_t));
+  xTinyMLQueue = xQueueCreate(1, sizeof(SensorData_t));
+  xAIResultQueue = xQueueCreate(1, sizeof(AIResult_t));
+  if (xAIResultQueue == NULL) {
+        Serial.println("Lỗi: Không thể tạo Queue AI Result!");
+    }
+  if (xTinyMLQueue == NULL) {
+        Serial.println("Queue create FAILED!");
+        while (1);
+    }
+  xDoorQueue = xQueueCreate(1, sizeof(SensorData_t));
+//  xLightQueue = xQueueCreate(1, sizeof(bool));  // ✅ CORRECT
   if (xSensorQueue == NULL || xLCDQueue == NULL) {
     Serial.println("Failed to create queue!");
+    
     while(1);
   }
   check_info_File(0);
-
+   DOOR_Init(); 
   // Khởi tạo task
   xTaskCreate(led_blinky, "Task LED Blink", 4096, NULL, 2, NULL);
   xTaskCreate(neo_blinky, "Task NEO Blink", 2048, NULL, 2, NULL);
   xTaskCreate(temp_humi_monitor, "Task TEMP HUMI Monitor", 4096, NULL, 2, NULL);
   xTaskCreate(lcd_display, "Task LCD", 4096, NULL, 2, NULL);
-  // xTaskCreate(main_server_task, "Task Main Server" ,8192  ,NULL  ,2 , NULL);
-  // xTaskCreate( tiny_ml_task, "Tiny ML Task" ,2048  ,NULL  ,2 , NULL);
+  xTaskCreate(main_server_task, "Task Main Server" ,4096  ,NULL  ,2 , NULL);
+  xTaskCreate(tiny_ml_task, "Tiny ML Task" ,2048  ,NULL  ,2 , NULL);
+  xTaskCreate(Door_Task, "Task Door Control", 16384, NULL, 2, NULL);
+   
   // xTaskCreate(coreiot_task, "CoreIOT Task" ,4096  ,NULL  ,2 , NULL);
   // xTaskCreate(Task_Toogle_BOOT, "Task_Toogle_BOOT", 4096, NULL, 2, NULL);
+  // xTaskCreate(Light_Task,"Light Task",4096,NULL,3,NULL);
 
-   Serial.println("All tasks started!");
+
+          
 }
 
 void loop()

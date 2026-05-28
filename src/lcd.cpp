@@ -10,18 +10,19 @@ void lcd_display(void *pvParameters) {
 SensorData_t receivedData; // Tạo một biến cục bộ để chứa dữ liệu
 float temp = 0;
 float humi = 0;
-
+float label = 0;
   while (1) {
     // Chờ dữ liệu mới
     if (xQueueReceive(xLCDQueue, &receivedData, 0) == pdTRUE) {
 
       temp = receivedData.temperature;
       humi = receivedData.humidity;
+      label = receivedData.label; //lấy kết quả từ TinyML
 
       lcd.setCursor(0, 0);
       {
         char buf[32];
-        snprintf(buf, sizeof(buf), "T:%.1fC H:%.1f%%", temp, humi);
+        snprintf(buf, sizeof(buf), "T:%.1fC H:%.1f%% L:%d", temp, humi, label);
         lcd.print(buf);
       }
 
@@ -55,7 +56,8 @@ float humi = 0;
         lcd.print("Status: NORMAL "); // Chuỗi 16 ký tự
       }
       // In ra Serial để debug
-      Serial.printf("[LCD] %s Mode - %.1f°C, %.1f%%\n", state.c_str(), temp, humi);
+      Serial.printf("[LCD] %s Mode - %.1f°C, %.1f%%\n" , state.c_str(), 
+                    temp, humi);
     }
      vTaskDelay(pdMS_TO_TICKS(250));
   }

@@ -17,5 +17,9 @@ SemaphoreHandle_t xBinarySemaphoreInternet = xSemaphoreCreateBinary();
 QueueHandle_t xSensorQueue = NULL;
 QueueHandle_t xLCDQueue = NULL;
 QueueHandle_t xNeoQueue = NULL;
+QueueHandle_t xServerQueue = NULL;
+QueueHandle_t xTinyMLQueue = NULL;
+QueueHandle_t xDoorQueue = NULL;
 SemaphoreHandle_t xLCDSemaphore = NULL;
+
 SensorData_t sensorData = {0};

@@ -12,7 +12,8 @@ void neo_blinky(void *pvParameters){
     SensorData_t receivedData;
     SensorData_t latestData = {0};
 
-    while(1) {                          
+    while(1) {       
+        if (led2_state) {                   
         if (xQueueReceive(xNeoQueue, &receivedData, pdMS_TO_TICKS(10)) == pdPASS) {
             latestData = receivedData; // cập nhật dữ liệu mới
         }
@@ -28,7 +29,7 @@ void neo_blinky(void *pvParameters){
             color = strip.Color(255, 255, 0);   // vàng
         } 
         else {
-            color = strip.Color(255, 255, 255); // trắng
+            color = strip.Color(0, 255, 0); // trắng
         }
 
         // Nháy LED 0.5s/lần (on 0.25s + off 0.25s)
@@ -39,5 +40,14 @@ void neo_blinky(void *pvParameters){
         strip.setPixelColor(0, strip.Color(0, 0, 0)); // Turn pixel 0 off
         strip.show();
         vTaskDelay(pdMS_TO_TICKS(250));
+        } else {
+            // Tác vụ BỊ TẮT
+            // Đảm bảo LED NeoPixel TẮT hoàn toàn
+            strip.clear();
+            strip.show();
+            
+            // Giải phóng thời gian CPU khi không hoạt động
+            vTaskDelay(pdMS_TO_TICKS(100)); 
+        }
     }
 }

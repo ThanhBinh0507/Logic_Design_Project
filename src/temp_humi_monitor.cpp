@@ -11,13 +11,15 @@ void temp_humi_monitor(void *pvParameters){
         sensorData.temperature = dht20.getTemperature();
         sensorData.humidity = dht20.getHumidity();
 
-        // Serial.printf("Humidity: %.2f%%  Temperature: %.2f°C\n", sensorData.humidity, sensorData.temperature);
+        Serial.printf("Humidity: %.2f%%  Temperature: %.2f°C\n", sensorData.humidity, sensorData.temperature);
 
         // Gửi dữ liệu vào Queue
         xQueueOverwrite(xSensorQueue, &sensorData);
         xQueueOverwrite(xLCDQueue, &sensorData);
         xQueueOverwrite(xNeoQueue, &sensorData);
-
+        xQueueOverwrite(xServerQueue, &sensorData);
+        xQueueOverwrite(xTinyMLQueue, &sensorData);
+        xQueueOverwrite(xDoorQueue, &sensorData);
         vTaskDelay(pdMS_TO_TICKS(5000)); // đọc mỗi 5s
     }
 }
